@@ -31,13 +31,9 @@ Two output files are saved for each run. First, with the number of steps that th
 
 ## Behavioral paradigm and datasets: 
 
-<img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/human_behavior/exp_paradigm.png" width = 350>                                     <img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/human_behavior/sample_trials.png" width = 300>
+<img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/human_behavior/exp_paradigm.png" width = 350>                                     <img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/human_behavior/sample_trials.png" width = 300>
 
 Refer to the paper for the details of the behavrioal paradigm. 
-
-This [google drive folder]() includes all the experimental images:
-**display_images** : This folder contains the images used in the experiment. All selected from COCO 2017 validation set. 
-**display_images_with dots** : This folder contains the images used in the experiment with the four versions of dot placements. 
 
 **Behavioral dataset**:
 datasets -> datasets_grouping -> test_data_groupiong.xls : This excel file contains the info for all the 1020 experimental trials. Each row specified one trial with these info:
