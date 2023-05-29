@@ -1,11 +1,45 @@
-# affinity_spread
+WORK IN PROGRESS
+
+# Affinity Attention
+
+<img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/sample_model_outputs/70158.png" width = 750>
 
 
+<!-- Publications:
+## Citing our work
 
-display_images : This folder contains the images used in the experiment. All selected from COCO 2017 validation set. 
+Please cite our  work by using the following BibTeX entry.
 
-display_images_with dots : This folder contains the images used in the experiment with the four versions of dot placements. 
+``` bibtex
+@Misc{xFormers2022,
+  author =       {Benjamin Lefaudeux and Francisco Massa and Diana Liskovich and Wenhan Xiong and Vittorio Caggiano and Sean Naren and Min Xu and Jieru Hu and Marta Tintore and Susan Zhang and Patrick Labatut and Daniel Haziza},
+  title =        {xFormers: A modular and hackable Transformer modelling library},
+  howpublished = {\url{https://github.com/facebookresearch/xformers}},
+  year =         {2022}
+}
+``` -->
 
+## Affinity spread model
+
+You can run the model using the code below. 
+
+```bash
+python main.py --arch "dinov2_vitb14" --patch_size 14 --which_features "q"  --coco2017_path "./data/coco" --calc_object_centric 1 --calc_spread 1 --aff_tau 0.8
+```
+
+Two output files are saved for each run. First, with the number of steps that the attention took to reach the second for each trial. Second, the True Postiive and False Positive rates of benchmarking how object-centric the representiona is.  
+
+## Behavioral paradigm and datasets: 
+
+<img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/human_behavior/exp_paradigm.png" width = 350>                                     <img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/human_behavior/sample_trials.png" width = 300>
+
+Refer to the paper for the details of the behavrioal paradigm. 
+
+This [google drive folder]() includes all the experimental images:
+**display_images** : This folder contains the images used in the experiment. All selected from COCO 2017 validation set. 
+**display_images_with dots** : This folder contains the images used in the experiment with the four versions of dot placements. 
+
+**Behavioral dataset**:
 datasets -> datasets_grouping -> test_data_groupiong.xls : This excel file contains the info for all the 1020 experimental trials. Each row specified one trial with these info:
 
 ['img_id',
@@ -19,12 +53,13 @@ datasets -> datasets_grouping -> test_data_groupiong.xls : This excel file conta
  'distance',
  'Img_shape']
 
-datasets -> datasets_grouping -> train_data_groupiong.xls : We applied our dot placement algorithm to the COCO 2017 training set in order to select many more trials. If you intend to train your model on the same-different task use this file. The images are completely separate from the images used in the experiment. The file contains the same info with the same format as the test_data_grouping.xls. 
+**datasets -> datasets_grouping -> train_data_groupiong.xls** : We applied our dot placement algorithm to the COCO 2017 training set in order to select many more trials. If you intend to train your model on the same-different task use this file. The images are completely separate from the images used in the experiment. The file contains the same info with the same format as the test_data_grouping.xls. 
 
+**datasets -> loaddata_g.py** : This file can read in the excel files for testing and training and give you a pytorch dataloader with the below function:  
 
-datasets -> loaddata_g.py : This file can read in the excel files for testing and training and give you a pytorch dataloader with the below function:  
-
+```bash
 fetch_dataloader(args, batch_size, train='train', shuffle=True)
+```
 
 The args needs to have these components: 
 args.batch_size – set as 1 because images have different sizes 
@@ -32,12 +67,9 @@ args.resize – whether to resize the images - only in use when running detr
 args.coco2017_path  – path to coco, have to be downloaded separately 
 args.dataset_grouping_dir  - this is the folder where the xls files are
 
-Also a function is included to plot the dots over images. 
+**utils for display images and dot locations.ipynb** : Some useful stuff to play around the display images and plot them. 
 
-
-utils for display images and dot locations.ipynb : Some useful stuff to play around the display images and plot them. 
-
-datasets -> datasets_grouping -> Human_grouping_data.xls : This is the main file containing raw behavioral data. We have 72 subjects in total. 
+**datasets -> datasets_grouping -> Human_grouping_data.xls** : This is the main file containing raw behavioral data. We have 72 subjects in total. 
 
 ['RECORDING_SESSION_LABEL',
  'Trial_Index_',
@@ -62,32 +94,51 @@ datasets -> datasets_grouping -> Human_grouping_data.xls : This is the main file
  'REACTION_TIME',
  'RT_EVENT_BUTTON_ID']
 
-preprocess behavioral data.ipynb : Use this notebook to preprocess the behavioral data. I have already saved the preprocessed files (test_data_grouping_with_all_beh.xls, test_data_grouping_with_mean_beh.xls, df_beh_c.xls) in the datasets -> datasets_grouping folder so you don’t really have to run this file, unless you want to change something. 
+**preprocess behavioral data.ipynb** : Use this notebook to preprocess the behavioral data. The preprocessed files (test_data_grouping_with_all_beh.xls, test_data_grouping_with_mean_beh.xls, df_beh_c.xls) are in the datasets -> datasets_grouping folder so no need to run this file, unless you want to change something. 
 
-human behavior analyses.ipynb : This notebook takes in the preprocessed files and analyzes the RTs and percentiles. It also calculates the subject-subject agreements and some sample trials with average RTs from subjects. 
-
-model results analyses.ipynb : 
-
-Affinity_spread_demo_standalone_colab.ipynb : This is a standalone simplified version of the code to run in Colab. 
+**human behavior analyses.ipynb** : This notebook takes in the preprocessed files and analyzes the RTs and percentiles. It also calculates the subject-subject agreements and plots some sample trials with average RTs from subjects. 
 
 
-experimental methods.gdoc : provides the method details of the experiment 
+## Evaluation 
 
-Behavioral methods
+<img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/results/ROC_curve_sorted_sim.png" width = 375><img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/results/model_human_rt_comp_sim.png" width = 300>
 
-Participants:
+**model results analyses.ipynb**: This notebook inputs the output runs and can plot the ROC curves for the object-centric measure. It can also compare each model ouput with the subjecs.
 
-72 Stony Brook University undergraduate students participated in our experiment for course credit. Their mean age was 20.4 years (range = 17–32) and all had normal or corrected-to-normal vision. This study was approved by the school Institutional Review Board. 
+The ntoebook also shows hwo to plot the output number of steps for a given run. 
 
-Stimuli and Apparatus:
-
-We selected 288 images from the Microsoft COCO (Common Objects in Context) dataset, which has images of complex everyday scenes depicting common objects in their natural context. The images also come with object-level segmentations, which we used to generate four versions of each display: "same-close" (two dots in the same object with a close distance), "same-far" (two dots in the same object with a far distance), "different-close" (two dots in two different objects with a close distance), and "different-far" (two dots in two different objects with a far distance). We ensured that the distances are controlled for between the two same/different conditions preventing the participants to make the same/different decision based on distance. Fig.~\ref{fig:beh_exp}C shows the placement of the dots across all four conditions. The assignment of images to the four conditions was counterbalanced across participants. The experiment was conducted on a 19-inch flat-screen CRT ViewSonic SVGA monitor with a screen resolution of 1024×768 pixels and a refresh rate of 100 Hz. Participants were seated approximately 70 cm away from the monitor, which resulted in the screen subtending a visual angle of 30◦ ×22◦. This meant that around 34 image pixels spanned approximately 1 degree of visual angle. The two dots used in the experiment were located around 3 degrees from the central fixation point for the close condition and 6 degrees for the peripheral dot. Gaze position during reading was recorded using an EyeLink 1000 eye-tracking system (SR Research) with a sampling rate of 1000 Hz. Gaze coordinates were parsed into fixations using the default Eyelink algorithm, which employed a velocity threshold of 30 degrees per second and an acceleration threshold of 8000 degrees per second squared. Calibration drift was checked before every trial, and recalibration was performed if necessary to ensure accurate eye-tracking data. 
-
-Procedure:
-
-Participants were instructed to determine whether two dots belonged to the same object or different objects. Each trial started with the presentation of a fixation cross, which remained on the screen for 500 ms, indicating the location of the central dot. At the start of each trial, both central and peripheral cues were displayed for 1,000 ms without the image. Next the cues were superimposed and flickered at a frequency of 5 Hz to ensure their visibility. During the trial, participants were required to maintain their gaze on the screen for the entire duration. If their gaze deviated more than 1 degree of visual angle away from the first dot during this period, the trial was terminated. To record their responses, participants utilized a Microsoft gamepad controller, with buttons randomly assigned to the "same" or "different" condition. The experiment consisted of a total of 32 practice trials and 256 experimental trials. The experimental trials were divided into four blocks, with breaks provided between the blocks. The order of image presentation was randomized across the trials. To provide accuracy feedback, a sound alarm was used to indicate an incorrect response to participants. We removed one experimental image from our analyses as the ground truth response was ambiguous leavening 255 experimental images and 1020 (255*4) trials for behavioral analyses and model comparison. 
+<img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/results/model_steps_hist_q_8_supp.png" width = 475><img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/results/model_steps_q_8_supp.png" width = 250>
 
 
+<!-- ### Repo map
 
+```bash
+├── ops                         # Functional operators
+    └ ...
+├── components                  # Parts zoo, any of which can be used directly
+│   ├── attention
+│   │    └ ...                  # all the supported attentions
+│   ├── feedforward             #
+│   │    └ ...                  # all the supported feedforwards
+│   ├── positional_embedding    #
+│   │    └ ...                  # all the supported positional embeddings
+│   ├── activations.py          #
+│   └── multi_head_dispatch.py  # (optional) multihead wrap
+|
+├── benchmarks
+│     └ ...                     # A lot of benchmarks that you can use to test some parts
+└── triton
+      └ ...                     # (optional) all the triton parts, requires triton + CUDA gpu
+``` -->
+## Credits
 
+The following repositories were used, either in close to original form or as an inspiration:
+
+1) [facebookresearch/dinov2](https://github.com/facebookresearch/dinov2) <br/>
+2) [facebookresearch/dino](https://github.com/facebookresearch/dino) <br/>
+3) [facebookresearch/mae](https://github.com/facebookresearch/mae) <br/>
+4) [facebookresearch/detr](https://github.com/facebookresearch/detr) <br/>
+5) [YangtaoWANG95/TokenCut](https://github.com/YangtaoWANG95/TokenCut) <br/>
+6) [valeoai/LOST](https://github.com/valeoai/LOST) <br/>
+7) [huggingface/pytorch-image-models](https://github.com/huggingface/pytorch-image-models) <br/>
 
