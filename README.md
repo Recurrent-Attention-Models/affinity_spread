@@ -1,23 +1,6 @@
-WORK IN PROGRESS
-
 # Affinity Attention
 
 <img src="https://raw.githubusercontent.com/Recurrent-Attention-Models/affinity_spread/main/figures/sample_model_outputs/70158.png" width = 750>
-
-
-<!-- Publications:
-## Citing our work
-
-Please cite our  work by using the following BibTeX entry.
-
-``` bibtex
-@Misc{xFormers2022,
-  author =       {Benjamin Lefaudeux and Francisco Massa and Diana Liskovich and Wenhan Xiong and Vittorio Caggiano and Sean Naren and Min Xu and Jieru Hu and Marta Tintore and Susan Zhang and Patrick Labatut and Daniel Haziza},
-  title =        {xFormers: A modular and hackable Transformer modelling library},
-  howpublished = {\url{https://github.com/facebookresearch/xformers}},
-  year =         {2022}
-}
-``` -->
 
 ## Affinity spread model
 
@@ -106,26 +89,6 @@ The ntoebook also shows hwo to plot the output number of steps for a given run.
 <img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/results/model_steps_hist_q_8_supp.png" width = 475><img src="https://raw.githubusercontent.com/Hosseinadeli/affinity_attention/main/figures/results/model_steps_q_8_supp.png" width = 250>
 
 
-<!-- ### Repo map
-
-```bash
-├── ops                         # Functional operators
-    └ ...
-├── components                  # Parts zoo, any of which can be used directly
-│   ├── attention
-│   │    └ ...                  # all the supported attentions
-│   ├── feedforward             #
-│   │    └ ...                  # all the supported feedforwards
-│   ├── positional_embedding    #
-│   │    └ ...                  # all the supported positional embeddings
-│   ├── activations.py          #
-│   └── multi_head_dispatch.py  # (optional) multihead wrap
-|
-├── benchmarks
-│     └ ...                     # A lot of benchmarks that you can use to test some parts
-└── triton
-      └ ...                     # (optional) all the triton parts, requires triton + CUDA gpu
-``` -->
 ## Credits
 
 The following repositories were used, either in close to original form or as an inspiration:
